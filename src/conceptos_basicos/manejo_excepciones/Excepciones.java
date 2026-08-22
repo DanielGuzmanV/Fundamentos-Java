@@ -4,11 +4,10 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Excepciones {
-  public static void main(String[] args) {
-    Scanner scanner = new Scanner(System.in);
 
-    System.out.println("=== Prueba de manejo de excepciones ===");
-    try{
+  // Manejo errores de entrada con "Scanner":
+  public static void errorTesting(Scanner scanner) {
+    try {
       System.out.println("Ingresa el nivel de jugador (Valor numerico): ");
       int nivel = scanner.nextInt();
 
@@ -30,5 +29,34 @@ public class Excepciones {
     }
 
     System.out.println("Programa continuando su ejecucion normal sin colapsar");
+  }
+
+  // Metodo con validacion manual mediante throw:
+  public static void validationCustom(RegisterPlayer registro) {
+    try {
+      registro.registrar("Manuel", 10);
+    } catch (IllegalArgumentException e) {
+      System.out.println("Error de registro: " + e.getMessage());
+    }
+
+    System.out.println("---------------------------------------");
+
+    try {
+      registro.registrar("Marco", -10);
+    } catch (IllegalArgumentException error) {
+      System.out.println("Error capturado correctamente: " + error.getMessage());
+    }
+
+    System.out.println("\n Programa sin colapsarse y puede continuar funcionando");
+  }
+
+  public static void main(String[] args) {
+    Scanner scanner = new Scanner(System.in);
+    RegisterPlayer registro = new RegisterPlayer();
+
+    Excepciones.validationCustom(registro);
+
+    Excepciones.errorTesting(scanner);
+
   }
 }
