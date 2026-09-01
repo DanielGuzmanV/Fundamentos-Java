@@ -26,7 +26,7 @@ public class JuegoService {
   // Mostrar la lista completa de entidades vivas o creadas
   public void mostrarEntidades() {
     if(entidadesGlobales.isEmpty()) {
-      System.out.println("No hay entidades creadas en el juego.");
+      System.out.println("\n -No hay entidades creadas en el juego.");
       return;
     }
 
