@@ -90,122 +90,148 @@ public class GameMainRPG {
 
   // --- Bloque 1: entidades ---
   private static void bloqueEntidades() {
-    System.out.println("\n--- BLOQUE 1: ENTIDADES ---");
-    System.out.println("1. Crear Jugador (Salud por defecto: 100 HP)");
-    System.out.println("2. Crear Entidad Custom (Enemigo/NPC)");
-    System.out.println("3. Ver Lista de Entidades");
-    System.out.print("Seleccione una opción: ");
+    boolean enBloque = true;
 
-    int op = leerEntero();
-    switch (op) {
-      case 1 -> {
-        System.out.print("Ingrese el nickname del jugador: ");
-        String nickname = scanner.nextLine();
-        Player jugador = new Player(nickname);
-        juegoService.registrarEntidad(jugador);
+    while (enBloque) {
+      System.out.println("\n--- BLOQUE 1: ENTIDADES ---");
+      System.out.println("1. Crear Jugador (Salud por defecto: 100 HP)");
+      System.out.println("2. Crear Entidad Custom (Enemigo/NPC)");
+      System.out.println("3. Ver Lista de Entidades");
+      System.out.println("4. Volver a la 'Pantall de Juego'");
+      System.out.print("Seleccione una opción: ");
+
+      int op = leerEntero();
+      switch (op) {
+        case 1 -> {
+          System.out.print("Ingrese el nickname del jugador: ");
+          String nickname = scanner.nextLine();
+          Player jugador = new Player(nickname);
+          juegoService.registrarEntidad(jugador);
+        }
+        case 2 -> {
+          System.out.print("Ingrese el nombre de la entidad custom: ");
+          String nombre = scanner.nextLine();
+          System.out.print("Ingrese la salud máxima: ");
+          int salud = leerEntero();
+          EntityCustom entidad = new EntityCustom(nombre, salud);
+          juegoService.registrarEntidad(entidad);
+        }
+        case 3 -> juegoService.mostrarEntidades();
+        case 4 -> {
+          System.out.println("Regresando a la Pantalla de Juego...");
+          enBloque = false;
+        }
+        default -> System.out.println("Opción inválida.");
       }
-      case 2 -> {
-        System.out.print("Ingrese el nombre de la entidad custom: ");
-        String nombre = scanner.nextLine();
-        System.out.print("Ingrese la salud máxima: ");
-        int salud = leerEntero();
-        EntityCustom entidad = new EntityCustom(nombre, salud);
-        juegoService.registrarEntidad(entidad);
-      }
-      case 3 -> juegoService.mostrarEntidades();
-      default -> System.out.println("Opción inválida.");
     }
   }
 
   // --- Bloque 2: items ---
   private static void bloqueItems() {
-    System.out.println("\n--- BLOQUE 2: CREACIÓN DE ÍTEMS ---");
-    System.out.println("1. Crear Arma");
-    System.out.println("2. Crear Armadura");
-    System.out.println("3. Crear Consumible");
-    System.out.println("4. Ver Catálogo Global");
-    System.out.print("Seleccione una opción: ");
+    boolean enBloque = true;
 
-    int op = leerEntero();
-    switch (op) {
-      case 1 -> {
-        System.out.print("Nombre del Arma: ");
-        String nombre = scanner.nextLine();
-        System.out.print("Puntos de Daño: ");
-        int dano = leerEntero();
-        System.out.print("Durabilidad: ");
-        int durabilidad = leerEntero();
-        catalogoService.registrarItem(new Arma(nombre, dano, durabilidad));
+    while (enBloque) {
+      System.out.println("\n--- BLOQUE 2: CREACIÓN DE ÍTEMS ---");
+      System.out.println("1. Crear Arma");
+      System.out.println("2. Crear Armadura");
+      System.out.println("3. Crear Consumible");
+      System.out.println("4. Ver Catálogo Global");
+      System.out.println("5. Volver a la 'Pantalla de Juego'");
+      System.out.print("Seleccione una opción: ");
+
+      int op = leerEntero();
+      switch (op) {
+        case 1 -> {
+          System.out.print("Nombre del Arma: ");
+          String nombre = scanner.nextLine();
+          System.out.print("Puntos de Daño: ");
+          int dano = leerEntero();
+          System.out.print("Durabilidad: ");
+          int durabilidad = leerEntero();
+          catalogoService.registrarItem(new Arma(nombre, dano, durabilidad));
+        }
+        case 2 -> {
+          System.out.print("Nombre de la Armadura: ");
+          String nombre = scanner.nextLine();
+          System.out.print("Puntos de Protección: ");
+          int prot = leerEntero();
+          System.out.print("Durabilidad: ");
+          int durabilidad = leerEntero();
+          catalogoService.registrarItem(new Armadura(nombre, prot, durabilidad));
+        }
+        case 3 -> {
+          System.out.print("Nombre del Consumible: ");
+          String nombre = scanner.nextLine();
+          System.out.print("Puntos de Curación (+HP): ");
+          int curacion = leerEntero();
+          catalogoService.registrarItem(new Consumible(nombre, curacion));
+        }
+        case 4 -> catalogoService.mostrarCatalogo();
+        case 5 -> {
+          System.out.println("Regresando a la Pantalla de Juego...");
+          enBloque = false;
+        }
+        default -> System.out.println("Opción inválida.");
       }
-      case 2 -> {
-        System.out.print("Nombre de la Armadura: ");
-        String nombre = scanner.nextLine();
-        System.out.print("Puntos de Protección: ");
-        int prot = leerEntero();
-        System.out.print("Durabilidad: ");
-        int durabilidad = leerEntero();
-        catalogoService.registrarItem(new Armadura(nombre, prot, durabilidad));
-      }
-      case 3 -> {
-        System.out.print("Nombre del Consumible: ");
-        String nombre = scanner.nextLine();
-        System.out.print("Puntos de Curación (+HP): ");
-        int curacion = leerEntero();
-        catalogoService.registrarItem(new Consumible(nombre, curacion));
-      }
-      case 4 -> catalogoService.mostrarCatalogo();
-      default -> System.out.println("Opción inválida.");
     }
   }
 
   // --- Bloque 3: inventario ---
   private static void bloqueInventario() {
-    System.out.println("\n--- BLOQUE 3: GESTIÓN DE INVENTARIO ---");
-    System.out.println("1. Dar Ítem del Catálogo a una Entidad");
-    System.out.println("2. Ver Inventario de un Jugador");
-    System.out.print("Seleccione una opción: ");
+    boolean enBloque = true;
 
-    int op = leerEntero();
-    if (op == 1) {
-      if (juegoService.getEntidadesGlobales().isEmpty()) {
-        System.out.println("No hay entidades creadas.");
-        return;
-      }
-      if (catalogoService.getCatalogoGlobal().isEmpty()) {
-        System.out.println("No hay ítems en el catálogo.");
-        return;
-      }
+    while (enBloque) {
+      System.out.println("\n--- BLOQUE 3: GESTIÓN DE INVENTARIO ---");
+      System.out.println("1. Dar Ítem del Catálogo a una Entidad");
+      System.out.println("2. Ver Inventario de un Jugador");
+      System.out.println("3. Volver a la 'Pantalla de Juego'");
+      System.out.print("Seleccione una opción: ");
 
-      juegoService.mostrarEntidades();
-      System.out.print("Seleccione el número de la entidad: ");
-      int idxEntidad = leerEntero() - 1;
-
-      Optional<LivingEntity> optEntidad = juegoService.obtenerPorIndice(idxEntidad);
-      if (optEntidad.isPresent() && optEntidad.get() instanceof Player jugador) {
-        catalogoService.mostrarCatalogo();
-        System.out.print("Seleccione el número del ítem a transferir: ");
-        int idxItem = leerEntero() - 1;
-
-        Optional<Items> optItem = catalogoService.obtenerPorIndice(idxItem);
-        optItem.ifPresent(jugador::guardarEnInventario);
-      } else {
-        System.out.println("Selección inválida o la entidad no tiene inventario.");
-      }
-    } else if (op == 2) {
-      juegoService.mostrarEntidades();
-      System.out.print("Seleccione el número del jugador: ");
-      int idx = leerEntero() - 1;
-      Optional<LivingEntity> opt = juegoService.obtenerPorIndice(idx);
-
-      if (opt.isPresent() && opt.get() instanceof Player jugador) {
-        System.out.println("\n Inventario de [" + jugador.getNombre() + "]:");
-        if (jugador.getInventario().isEmpty()) {
-          System.out.println("   (Inventario vacío)");
-        } else {
-          jugador.getInventario().values().forEach(i -> System.out.println("   - " + i.getDetalles()));
+      int op = leerEntero();
+      if (op == 1) {
+        if (juegoService.getEntidadesGlobales().isEmpty()) {
+          System.out.println("No hay entidades creadas.");
+          return;
         }
-      } else {
-        System.out.println("El objetivo seleccionado no es un jugador válido.");
+        if (catalogoService.getCatalogoGlobal().isEmpty()) {
+          System.out.println("No hay ítems en el catálogo.");
+          return;
+        }
+
+        juegoService.mostrarEntidades();
+        System.out.print("Seleccione el número de la entidad: ");
+        int idxEntidad = leerEntero() - 1;
+
+        Optional<LivingEntity> optEntidad = juegoService.obtenerPorIndice(idxEntidad);
+        if (optEntidad.isPresent() && optEntidad.get() instanceof Player jugador) {
+          catalogoService.mostrarCatalogo();
+          System.out.print("Seleccione el número del ítem a transferir: ");
+          int idxItem = leerEntero() - 1;
+
+          Optional<Items> optItem = catalogoService.obtenerPorIndice(idxItem);
+          optItem.ifPresent(jugador::guardarEnInventario);
+        } else {
+          System.out.println("Selección inválida o la entidad no tiene inventario.");
+        }
+      } else if (op == 2) {
+        juegoService.mostrarEntidades();
+        System.out.print("Seleccione el número del jugador: ");
+        int idx = leerEntero() - 1;
+        Optional<LivingEntity> opt = juegoService.obtenerPorIndice(idx);
+
+        if (opt.isPresent() && opt.get() instanceof Player jugador) {
+          System.out.println("\n Inventario de [" + jugador.getNombre() + "]:");
+          if (jugador.getInventario().isEmpty()) {
+            System.out.println("   (Inventario vacío)");
+          } else {
+            jugador.getInventario().values().forEach(i -> System.out.println("   - " + i.getDetalles()));
+          }
+        } else {
+          System.out.println("El objetivo seleccionado no es un jugador válido.");
+        }
+      } else if (op == 3) {
+        System.out.println("Regresando a la Pantalla de Juego...");
+        enBloque = false;
       }
     }
   }
